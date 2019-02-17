@@ -37,7 +37,7 @@ public class TitularesController {
 	}
 	
 	@PostMapping("/{idTitular}/dependentes")
-	public ResponseEntity<?>  inserirDependenten(@Valid @PathVariable Integer idTitular, @RequestBody DependenteDto dto) throws IOException, IOException {
+	public ResponseEntity<?>  inserirDependentes(@Valid @PathVariable Integer idTitular, @RequestBody DependenteDto dto) throws IOException, IOException {
 		dto.setIdTitular(idTitular);
 		return new ResponseEntity<>(service.inserirDependente(dto), HttpStatus.CREATED);
 	}
