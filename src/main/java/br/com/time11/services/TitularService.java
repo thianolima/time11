@@ -163,4 +163,5 @@ public class TitularService {
 	public Titular pesquisarEmailDependente(String email) {
 		return titularRepository.findByDependentesEmail(email);
 	}
+
 }
