@@ -10,21 +10,27 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Dependente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	String nome;
+	String sobrenome;
 	Double saldo;
 	String telefone;
 	String email;
+	String idzoop;
 	
 	@JsonIgnore
 	@ManyToOne

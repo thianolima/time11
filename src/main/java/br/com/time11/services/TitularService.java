@@ -19,9 +19,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import br.com.time11.dtos.BuyerCardDto;
 import br.com.time11.dtos.BuyerDto;
 import br.com.time11.dtos.CardDto;
+import br.com.time11.dtos.DependenteDto;
 import br.com.time11.entities.Cartao;
+import br.com.time11.entities.Dependente;
 import br.com.time11.entities.Titular;
 import br.com.time11.repositories.CartaoRepository;
+import br.com.time11.repositories.DependenteRepository;
 import br.com.time11.repositories.TitularRepository;
 
 @Service
@@ -41,7 +44,9 @@ public class TitularService {
 	
 	@Autowired
 	CartaoRepository cartaoRespoistory;
-			
+		
+	@Autowired
+	DependenteRepository dependenteRepository;
 	
 	public Titular inserir(BuyerDto dto) throws JsonProcessingException, IOException {
 			RestTemplate rest = new RestTemplate();	
@@ -69,7 +74,7 @@ public class TitularService {
 			return titularRepository.save(titular);
 	}
 	
-	public void inserirCartao(CardDto cardDto) throws JsonProcessingException, IOException  {
+	public Titular inserirCartao(CardDto cardDto) throws JsonProcessingException, IOException  {
 		RestTemplate rest = new RestTemplate();	
 		
 		String url = url_base + "/v1/marketplaces/" + markeplace_id + "/cards/tokens";
@@ -119,6 +124,32 @@ public class TitularService {
 				.body(json);
 				
 		titular.setCartao(cartao);
-		titularRepository.save(titular);
+		return titularRepository.save(titular);
 	}
+	
+	public Dependente inserirDependente(DependenteDto dto) throws JsonProcessingException, IOException {
+		RestTemplate rest = new RestTemplate();	
+		
+		String url = url_base + "/v1/marketplaces/" + markeplace_id + "/buyers";
+		
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String json = ow.writeValueAsString(dto);
+		
+		RequestEntity<?> request = RequestEntity				
+				.post(URI.create(url))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.header("Authorization", api_published_key)
+				.body(json);
+		
+		ResponseEntity<String> response = rest.exchange(request, String.class);
+		json = response.getBody();
+		
+		HashMap<String,Object> result = new ObjectMapper().readValue(json, HashMap.class);
+		
+		Dependente dependente = dto.toEntity(titularRepository);
+		dependente.setIdzoop(result.get("id").toString());
+		
+		return dependenteRepository.save(dependente);
+} 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.time11.dtos.BuyerDto;
 import br.com.time11.dtos.CardDto;
+import br.com.time11.dtos.DependenteDto;
 import br.com.time11.services.TitularService;
 
 @RestController
@@ -25,15 +26,20 @@ public class TitularesController {
 	TitularService service;
 	
 	@PostMapping
-	public ResponseEntity<?> inserir(@Valid @RequestBody BuyerDto dto) throws IOException, IOException{
-		return new ResponseEntity<>(service.inserir(dto), HttpStatus.CREATED);
+	public ResponseEntity<?> inserir(@Valid @RequestBody BuyerDto titular) throws IOException, IOException{
+		return new ResponseEntity<>(service.inserir(titular), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/{idTitular}/cartoes")
 	public ResponseEntity<?> inserirCartao(@Valid @PathVariable Integer idTitular, @RequestBody CardDto dto) throws IOException, IOException{
+		dto.setIdTitular(idTitular);		
+		return new ResponseEntity<>(service.inserirCartao(dto), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/{idTitular}/dependentes")
+	public ResponseEntity<?>  inserirDependenten(@Valid @PathVariable Integer idTitular, @RequestBody DependenteDto dto) throws IOException, IOException {
 		dto.setIdTitular(idTitular);
-		service.inserirCartao(dto);
-		return new ResponseEntity<>("oi", HttpStatus.CREATED);
+		return new ResponseEntity<>(service.inserirDependente(dto), HttpStatus.CREATED);
 	}
 	
 }
