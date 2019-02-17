@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import br.com.time11.dtos.SMSDto;
 import br.com.time11.dtos.TransactionDto;
 import br.com.time11.entities.Dependente;
 import br.com.time11.entities.Estabelecimento;
@@ -50,6 +51,9 @@ public class MovimentoService {
 	
 	@Autowired
 	EstabelecimentoRepository estabelecimetoRepository;
+	
+	@Autowired
+	SMSService smsService;
 	
 	public void inserir(TransactionDto dto) throws JsonProcessingException, IOException {
 		
@@ -94,11 +98,18 @@ public class MovimentoService {
 			Movimento movimento = Movimento.builder()
 					.dataHora(LocalDateTime.now())
 					.dependente(dependente)
-					.valor(dependente.getSaldo())
+					.valor(valTransacao)
 					.estabelecimento(estabelecimento)
 					.build();
 			
 			movimentoRepository.save(movimento);
+			
+			smsService.sendSms(SMSDto.builder()
+					.to(movimento.getDependente().getTitular().getTelefone())
+					.message(dependente.getNome() + " , acabou de realizar uma despesa de R$" + movimento.getValor() + 
+							", no estabelecimento " + estabelecimento.getNome())
+					.carrier("")
+					.build());
 			
 		} else {		
 			throw new SemSaldoException("Saldo insuficiente para compra !");
