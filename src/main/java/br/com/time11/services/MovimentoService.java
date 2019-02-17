@@ -104,8 +104,10 @@ public class MovimentoService {
 			//-------------------------------------------
 			Estabelecimento estabelecimento = estabelecimetoRepository.findByIdzoop(sellerid).get();
 			
+			Date datahoje = new Date();
+			
 			Movimento movimento = Movimento.builder()
-					.dataHora(new Date())
+					.dataHora(datahoje)
 					.dependente(dependente)
 					.valor(valTransacao)
 					.estabelecimento(estabelecimento)

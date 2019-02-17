@@ -29,6 +29,8 @@ public class Estabelecimento {
 	String website;
 	String idzoop;
 	String descricao;
+	Double latitude;
+	Double longitude;
 	
 	@Enumerated
 	Categoria categoria;
