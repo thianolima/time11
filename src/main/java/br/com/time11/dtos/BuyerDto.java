@@ -1,5 +1,6 @@
 package br.com.time11.dtos;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import br.com.time11.entities.Titular;
@@ -13,20 +14,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BuyerDto {
-
-	@NotNull
+	
+	@NotNull(message = "O nome não pode ser nullo")
 	private String first_name;
 	
-	@NotNull
+	@NotNull(message = "O sobrenome não pode ser nullo")
 	private String last_name;
 	
-	@NotNull	
+	@NotNull(message = "O CPF/CNPJ não pode ser nullo")	
 	private String taxpayer_id;
 	
-	@NotNull
+	@NotNull(message = "O Telefone não pode ser nullo")
 	private String phone_number;
 	
-	@NotNull
+	@NotNull(message = "O E-mail não pode ser nullo")
+	@Email(message = "E-mail inválido")
 	private String email;
 	
 	public Titular toEntity() {

@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BuyerCardDto {
 
-	@NotNull	
+	@NotNull(message = "Token não pode ser nullo")	
 	String token;
 	
-	@NotNull
+	@NotNull(message = "Customer não pode ser nullo")
 	String customer;
 }

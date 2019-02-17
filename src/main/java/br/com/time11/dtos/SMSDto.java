@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SMSDto
 {
-	@NotNull
+	@NotNull(message="O número do destinatário não pode ser nullo")
 	private String to;
 	
-	@NotNull
+	@NotNull(message="A mensagem não pode ser nulla")
 	private String message;
 	
-	@NotNull
+	@NotNull(message="A operadora não pode ser nulla")
 	private String carrier;
 }

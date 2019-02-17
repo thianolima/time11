@@ -14,25 +14,25 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SellerDto 
 {
-	@NotNull
+	@NotNull(message="Nome da empresa não pode ser nullo")
 	private String business_name;
 	
-	@NotNull
+	@NotNull(message="Telefone da empresa não pode ser nullo")
 	private String business_phone;
 	
-	@NotNull
+	@NotNull(message="Nome da empresa não pode ser nullo")
 	private String business_email;
 	
-	@NotNull
+	@NotNull(message="Website da empresa não pode ser nullo")
 	private String business_website;
 	
-	@NotNull
+	@NotNull(message="Descrição não pode ser nullo")
 	private String business_description;
 	
-	@NotNull
+	@NotNull(message="A categoria da empresa não pode ser nullo")
 	private String mcc;
 
-	@NotNull 
+	@NotNull(message="Não pode ser nullo")
 	private String ein;
 		
 	public Estabelecimento toEntity() {

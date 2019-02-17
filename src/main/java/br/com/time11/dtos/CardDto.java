@@ -14,19 +14,18 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CardDto {
 
-	@NotNull
+	@NotNull(message="Numero do cartão é obrigatório")
 	String card_number;
 	
-	@NotNull
+	@NotNull(message="Nome do titular do cartão é obrigatório")
 	String holder_name;
 	
-	@NotNull
+	@NotNull(message="Ano de expiração obrigatório")
 	String expiration_year;
 	
-	@NotNull
 	String security_code;
 	
-	@NotNull
+	@NotNull(message="Mês de expiração obrigatório")
 	String expiration_month;
 	
 	@NotNull

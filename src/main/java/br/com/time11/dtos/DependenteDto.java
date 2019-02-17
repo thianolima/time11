@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DependenteDto {
 
-	@NotNull
+	@NotNull(message="Nome do dependente não pode ser nullo")
 	private String first_name;
 	
 	@NotNull
