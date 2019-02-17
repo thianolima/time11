@@ -19,7 +19,11 @@ public class Estabelecimento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	String Nome;
+	String nome;
+	String telefone;
+	String email;
+	String website;
+	String descricao;
 	
 	@Enumerated
 	Categoria categoria;
