@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -48,6 +50,7 @@ public class TitularService {
 	@Autowired
 	DependenteRepository dependenteRepository;
 	
+	@Transactional
 	public Titular inserir(BuyerDto dto) throws JsonProcessingException, IOException {
 			RestTemplate rest = new RestTemplate();	
 			
@@ -74,6 +77,7 @@ public class TitularService {
 			return titularRepository.save(titular);
 	}
 	
+	@Transactional
 	public Titular inserirCartao(CardDto cardDto) throws JsonProcessingException, IOException  {
 		RestTemplate rest = new RestTemplate();	
 		
@@ -130,6 +134,7 @@ public class TitularService {
 		return titularRepository.save(titular);
 	}
 	
+	@Transactional
 	public Dependente inserirDependente(DependenteDto dto) throws JsonProcessingException, IOException {
 		RestTemplate rest = new RestTemplate();	
 		

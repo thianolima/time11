@@ -2,8 +2,14 @@ package br.com.time11.services;
 
 import java.io.IOException;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,13 +61,16 @@ public class MovimentoService {
 	@Autowired
 	SMSService smsService;
 	
-	public void inserir(TransactionDto dto) throws JsonProcessingException, IOException {
+	@PersistenceContext
+	EntityManager em;
+	
+	@Transactional
+	public Dependente inserir(TransactionDto dto) throws JsonProcessingException, IOException {
 		
 		Double saldo = dependenteRepository.pesquisarSaldo(dto.getIdZoopDependente());
 		Double valTransacao = (double) (dto.getAmount() / 100);
 		
 		if(saldo >= valTransacao) {			
-			
 			
 			//-------------------------------------------
 			// VALIDA TRANSACAO NA ZOOP
@@ -96,13 +105,13 @@ public class MovimentoService {
 			Estabelecimento estabelecimento = estabelecimetoRepository.findByIdzoop(sellerid).get();
 			
 			Movimento movimento = Movimento.builder()
-					.dataHora(LocalDateTime.now())
+					.dataHora(new Date())
 					.dependente(dependente)
 					.valor(valTransacao)
 					.estabelecimento(estabelecimento)
 					.build();
 			
-			movimentoRepository.save(movimento);
+			movimentoRepository.save(movimento);			
 			
 			smsService.sendSms(SMSDto.builder()
 					.to(movimento.getDependente().getTitular().getTelefone())
@@ -111,16 +120,28 @@ public class MovimentoService {
 					.carrier("")
 					.build());
 			
+			return movimento.getDependente();
+			
 		} else {		
 			throw new SemSaldoException("Saldo insuficiente para compra !");
 		}
 	}
 	
-	public List<Movimento> listarMovimento(//LocalDateTime inicio, 
-	                                       //LocalDateTime fim,
+	@Transactional
+	public List<Movimento> listarMovimento(Date inicio, 
+										   Date fim,
 	                                       Categoria categoria,
 	                                       Integer idDependente) {
-		List<Movimento> retorno = movimentoRepository.listarMovimentos(/*inicio, fim,*/ categoria, idDependente); 
+		
+		SimpleDateFormat frm = new SimpleDateFormat("yyyy-dd-MM");
+		
+		Query query =  em.createQuery("select m from Movimento m" 
+					+ " where m.dataHora between '" + frm.format(inicio) + "' and '" + frm.format(fim) +"'"
+					+ " and m.estabelecimento.categoria = " + categoria.getValue() 
+					+ " and m.dependente.id = " + idDependente);
+		
+		List<Movimento> retorno = query.getResultList();
+		
 		return retorno;
 	}
 	
