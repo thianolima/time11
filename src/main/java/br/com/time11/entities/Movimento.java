@@ -1,6 +1,7 @@
 package br.com.time11.entities;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -26,7 +27,7 @@ public class Movimento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	
-	LocalDateTime dataHora;
+	Date dataHora;
 	
 	@ManyToOne
     @JoinColumn(name = "idestabelecimento", nullable = false, foreignKey = @ForeignKey(name = "fk_movimento_estabelecimento"))

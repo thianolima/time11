@@ -3,6 +3,8 @@ package br.com.time11.services;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -34,6 +36,7 @@ public class EstabelecimentoService
 	@Autowired
 	EstabelecimentoRepository estabelecimentoRepository;
 	
+	@Transactional
 	public Estabelecimento inserir(SellerDto dto) throws JsonProcessingException, IOException 
 	{
 		RestTemplate rest = new RestTemplate();	
