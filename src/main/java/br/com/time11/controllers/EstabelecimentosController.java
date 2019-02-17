@@ -16,7 +16,7 @@ import br.com.time11.dtos.SellerDto;
 import br.com.time11.services.EstabelecimentoService;
 
 @RestController
-@RequestMapping("/time11/estabelecimentos")
+@RequestMapping("/estabelecimentos")
 public class EstabelecimentosController 
 {
 	

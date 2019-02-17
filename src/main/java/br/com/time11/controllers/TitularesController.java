@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +41,16 @@ public class TitularesController {
 	public ResponseEntity<?>  inserirDependentes(@Valid @PathVariable Integer idTitular, @RequestBody DependenteDto dto) throws IOException, IOException {
 		dto.setIdTitular(idTitular);
 		return new ResponseEntity<>(service.inserirDependente(dto), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/email/{email}")
+	public ResponseEntity<?> pesquisarEmail(@PathVariable String email){
+		return new ResponseEntity<>(service.pesquisarEmail(email), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/dependentes/{email}")
+	public ResponseEntity<?> pesquisarDepentes(@PathVariable String email){
+		return new ResponseEntity<>(service.pesquisarEmailDependente(email), HttpStatus.CREATED);
 	}
 	
 }

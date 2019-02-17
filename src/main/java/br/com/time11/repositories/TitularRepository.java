@@ -6,4 +6,6 @@ import br.com.time11.entities.Titular;
 
 public interface TitularRepository extends JpaRepository<Titular, Integer>{
 
+	Titular findByEmail(String email);
+	Titular findByDependentesEmail(String email);
 }

@@ -102,7 +102,7 @@ public class TitularService {
 		cartao = cartaoRespoistory.save(cartao);
 		
 		//-------------------------------------------------------------------------		
-		// ASSOCIANDO O CARTAO AO TITULAS
+		// ASSOCIANDO O CARTAO AO TITULAR
 		//-------------------------------------------------------------------------
 		Titular titular = titularRepository.findById(cardDto.getIdTitular()).get();		
 		
@@ -122,6 +122,9 @@ public class TitularService {
 				.accept(MediaType.APPLICATION_JSON)
 				.header("Authorization", api_published_key)
 				.body(json);
+		
+		response = rest.exchange(request, String.class);
+		json = response.getBody();
 				
 		titular.setCartao(cartao);
 		return titularRepository.save(titular);
@@ -151,5 +154,13 @@ public class TitularService {
 		dependente.setIdzoop(result.get("id").toString());
 		
 		return dependenteRepository.save(dependente);
-} 
+	} 
+	
+	public Titular pesquisarEmail(String email) {
+		return titularRepository.findByEmail(email);
+	}
+	
+	public Titular pesquisarEmailDependente(String email) {
+		return titularRepository.findByDependentesEmail(email);
+	}
 }
