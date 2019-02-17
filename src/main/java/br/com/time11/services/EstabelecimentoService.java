@@ -2,6 +2,7 @@ package br.com.time11.services;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,5 +57,9 @@ public class EstabelecimentoService
 		Estabelecimento estabelecimento = dto.toEntity();
 		
 		return estabelecimentoRepository.save(estabelecimento);
+	}
+	
+	public List<Estabelecimento> listar(){
+		return estabelecimentoRepository.findAll();
 	}
 }
